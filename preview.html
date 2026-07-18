@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel Preview</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
+        #root { height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; }
+        .mobile-shell {
+            width: 375px; height: 812px;
+            background: #050505; border: 8px solid #1a1a1a;
+            border-radius: 40px; position: relative;
+            overflow: hidden; box-shadow: 0 0 50px rgba(0, 240, 255, 0.1);
+        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- COMPONENTS ---
+
+        const Login = ({ onLogin }) => {
+            const styles = {
+                container: { height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '30px', boxSizing: 'border-box' },
+                logoContainer: { textAlign: 'center', marginBottom: '40px' },
+                logoIcon: { width: '60px', height: '60px', borderRadius: '15px', backgroundColor: '#00F0FF', color: '#000', fontSize: '2rem', fontWeight: '800', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)' },
+                logoText: { fontSize: '1.5rem', letterSpacing: '5px', fontWeight: '800', margin: 0 },
+                inputGroup: { marginBottom: '20px' },
+                label: { color: '#00F0FF', fontSize: '0.6rem', fontWeight: 'bold', display: 'block', marginBottom: '8px' },
+                input: { width: '100%', padding: '15px', backgroundColor: '#111', border: '1px solid #222', borderRadius: '12px', color: '#fff', boxSizing: 'border-box' },
+                loginBtn: { width: '100%', padding: '18px', backgroundColor: '#00F0FF', color: '#000', border: 'none', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', marginTop: '20px' }
+            };
+
+            return (
+                <div style={styles.container}>
+                    <div style={styles.logoContainer}>
+                        <div style={styles.logoIcon}>S</div>
+                        <h1 style={styles.logoText}>SENTINEL</h1>
+                    </div>
+                    <div style={styles.inputGroup}>
+                        <span style={styles.label}>OPERATOR ID</span>
+                        <input style={styles.input} value="SENTINEL-X-882" readOnly />
+                    </div>
+                    <div style={styles.inputGroup}>
+                        <span style={styles.label}>SECURE ACCESS</span>
+                        <input style={styles.input} type="password" placeholder="••••••••" />
+                    </div>
+                    <button style={styles.loginBtn} onClick={onLogin}>INITIALIZE SYSTEM</button>
+                </div>
+            );
+        };
+
+        const Dashboard = () => {
+            const [isAILive, setIsAILive] = useState(true);
+            const styles = {
+                container: { padding: '20px', height: '100%', boxSizing: 'border-box' },
+                header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' },
+                logo: { letterSpacing: '2px', fontSize: '0.8rem', fontWeight: '800', color: '#00F0FF' },
+                radarContainer: { display: 'flex', justifyContent: 'center', margin: '40px 0' },
+                radar: { width: '200px', height: '200px', borderRadius: '50%', border: '1px solid #00F0FF', display: 'flex', justifyContent: 'center', alignItems: 'center', animation: 'spin 10s linear infinite', position: 'relative' },
+                radarLine: { position: 'absolute', top: '50%', left: '50%', width: '50%', height: '2px', background: 'linear-gradient(to right, transparent, #00F0FF)', transformOrigin: 'left center' },
+                statsGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' },
+                statBox: { backgroundColor: '#111', padding: '15px', borderRadius: '15px', border: '1px solid #222' },
+                btn: { width: '100%', padding: '18px', borderRadius: '15px', border: 'none', backgroundColor: '#00F0FF', fontWeight: 'bold' }
+            };
+
+            return (
+                <div style={styles.container}>
+                    <div style={styles.header}>
+                        <div style={styles.logo}>SENTINEL CORE</div>
+                        <div style={{fontSize: '0.6rem', color: '#00F0FF'}}>● LIVE SCAN</div>
+                    </div>
+                    <div style={styles.radarContainer}>
+                        <div style={styles.radar}>
+                            <div style={styles.radarLine}></div>
+                            <div style={{animation: 'pulse 2s infinite', fontSize: '0.6rem', color: '#00F0FF'}}>ENVIRONMENT SECURE</div>
+                        </div>
+                    </div>
+                    <div style={styles.statsGrid}>
+                        <div style={styles.statBox}><span style={{fontSize: '0.5rem', color: '#666'}}>HEART RATE</span><br/>72 BPM</div>
+                        <div style={styles.statBox}><span style={{fontSize: '0.5rem', color: '#666'}}>MESH NODES</span><br/>12 ACTIVE</div>
+                    </div>
+                    <button style={styles.btn}>GHOST PROTOCOL</button>
+                </div>
+            );
+        };
+
+        const MapScreen = () => {
+            const styles = {
+                container: { padding: '20px', height: '100%', boxSizing: 'border-box' },
+                map: { height: '60%', backgroundColor: '#111', borderRadius: '20px', border: '1px solid #222', position: 'relative', overflow: 'hidden' },
+                dot: { position: 'absolute', top: '40%', left: '50%', width: '10px', height: '10px', backgroundColor: '#00F0FF', borderRadius: '50%', boxShadow: '0 0 10px #00F0FF' },
+                danger: { position: 'absolute', top: '20%', left: '20%', width: '80px', height: '80px', backgroundColor: 'rgba(255, 75, 75, 0.2)', borderRadius: '50%', filter: 'blur(20px)' },
+                info: { marginTop: '20px' }
+            };
+
+            return (
+                <div style={styles.container}>
+                    <div style={{marginBottom: '20px', fontSize: '0.8rem', fontWeight: 'bold'}}>SAFETY HEATMAP</div>
+                    <div style={styles.map}>
+                        <div style={styles.danger}></div>
+                        <div style={styles.dot}></div>
+                    </div>
+                    <div style={styles.info}>
+                        <h3 style={{color: '#00F0FF', margin: '0 0 10px 0'}}>Safe Path Active</h3>
+                        <p style={{fontSize: '0.7rem', color: '#666'}}>Routing around 2 high-risk zones detected by community nodes.</p>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [screen, setScreen] = useState('LOGIN');
+            
+            return (
+                <div className="mobile-shell">
+                    {screen === 'LOGIN' && <Login onLogin={() => setScreen('DASHBOARD')} />}
+                    {screen === 'DASHBOARD' && (
+                        <div style={{height: '100%'}}>
+                            <Dashboard />
+                            <div style={{position: 'absolute', bottom: 0, width: '100%', display: 'flex', borderTop: '1px solid #222', backgroundColor: '#050505'}}>
+                                <button onClick={() => setScreen('DASHBOARD')} style={{flex: 1, padding: '20px', background: 'none', border: 'none', color: screen === 'DASHBOARD' ? '#00F0FF' : '#444', fontSize: '0.6rem', fontWeight: 'bold'}}>DASHBOARD</button>
+                                <button onClick={() => setScreen('MAP')} style={{flex: 1, padding: '20px', background: 'none', border: 'none', color: '#444', fontSize: '0.6rem', fontWeight: 'bold'}}>MAP</button>
+                            </div>
+                        </div>
+                    )}
+                    {screen === 'MAP' && (
+                        <div style={{height: '100%'}}>
+                            <MapScreen />
+                            <div style={{position: 'absolute', bottom: 0, width: '100%', display: 'flex', borderTop: '1px solid #222', backgroundColor: '#050505'}}>
+                                <button onClick={() => setScreen('DASHBOARD')} style={{flex: 1, padding: '20px', background: 'none', border: 'none', color: '#444', fontSize: '0.6rem', fontWeight: 'bold'}}>DASHBOARD</button>
+                                <button onClick={() => setScreen('MAP')} style={{flex: 1, padding: '20px', background: 'none', border: 'none', color: '#00F0FF', fontSize: '0.6rem', fontWeight: 'bold'}}>MAP</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
