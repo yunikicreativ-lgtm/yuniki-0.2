@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentinel Pro: Light Edition</title>
+    <title>Sentinel Pro: The Ultimate Safety Ecosystem</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; background-color: #f0f2f5; color: #1a1c1e; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        body { margin: 0; padding: 0; background-color: #f8fafc; color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
         #root { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
         .mobile-shell {
             width: 375px; height: 812px;
-            background: #ffffff; border: 12px solid #1a1c1e;
+            background: #ffffff; border: 12px solid #0f172a;
             border-radius: 50px; position: relative;
-            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             display: flex; flex-direction: column;
         }
-        .status-bar { height: 44px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 800; }
-        .screen-content { flex: 1; overflow-y: auto; padding: 20px; }
+        .status-bar { height: 44px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; }
+        .screen-content { flex: 1; overflow-y: auto; padding: 20px; position: relative; }
         
-        /* Light Theme Styles */
-        .card { background: #f8fafc; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        .card { background: #f1f5f9; border-radius: 24px; padding: 20px; margin-bottom: 16px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        .card:active { transform: scale(0.98); }
+        
         .sos-btn {
-            width: 120px; height: 120px; border-radius: 50%;
-            background: #ef4444; border: 8px solid #fee2e2;
-            color: white; font-weight: 800; font-size: 1.5rem;
+            width: 130px; height: 130px; border-radius: 50%;
+            background: #ef4444; border: 10px solid #fee2e2;
+            color: white; font-weight: 800; font-size: 1.6rem;
             margin: 20px auto; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 15px 30px rgba(239, 68, 68, 0.4);
             cursor: pointer; position: relative;
         }
         .sos-btn::after {
@@ -36,22 +37,23 @@
             border-radius: 50%; border: 2px solid #ef4444;
             animation: ripple 2s infinite;
         }
-        @keyframes ripple { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .action-chip { background: #fff; padding: 12px; border-radius: 15px; border: 1px solid #e2e8f0; font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .chip { background: #fff; padding: 14px; border-radius: 16px; border: 1px solid #e2e8f0; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
         
-        /* Emergency Mode */
         .emergency-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: #ef4444; z-index: 100; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; color: white; padding: 40px; text-align: center;
-            animation: flash red 1s infinite;
+            position: absolute; inset: 0; background: #ef4444; z-index: 100; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            color: white; padding: 40px; text-align: center;
         }
-        .stop-btn {
-            width: 100%; padding: 20px; background: white; color: #ef4444;
-            border-radius: 20px; font-weight: 800; border: none; margin-top: 40px; cursor: pointer;
-        }
+        .stop-btn { width: 100%; padding: 20px; background: white; color: #ef4444; border-radius: 20px; font-weight: 800; border: none; margin-top: 40px; cursor: pointer; font-size: 1rem; }
+        
+        .nav-bar { height: 80px; display: flex; border-top: 1px solid #f1f5f9; background: #fff; padding-bottom: 10px; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; alignItems: center; justifyContent: center; font-size: 0.65rem; fontWeight: 700; color: #94a3b8; cursor: pointer; }
+        .nav-item.active { color: #ef4444; }
+
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
 <body>
@@ -61,10 +63,11 @@
         const { useState, useEffect } = React;
 
         const App = () => {
+            const [currentScreen, setCurrentScreen] = useState('HOME');
             const [isEmergency, setIsEmergency] = useState(false);
             const [countdown, setCountdown] = useState(60);
-            const [showPin, setShowPin] = useState(false);
             const [pin, setPin] = useState("");
+            const [showPin, setShowPin] = useState(false);
 
             useEffect(() => {
                 let timer;
@@ -74,121 +77,124 @@
                 return () => clearInterval(timer);
             }, [isEmergency, countdown]);
 
-            const handleStop = () => setShowPin(true);
-            const handlePinSubmit = () => {
-                if (pin === "1234") {
-                    setIsEmergency(false);
-                    setShowPin(false);
-                    setCountdown(60);
-                    setPin("");
-                } else {
-                    alert("Wrong Passcode");
-                }
+            const triggerSOS = () => { setIsEmergency(true); setCountdown(60); };
+            const stopSOS = () => setShowPin(true);
+            const confirmPin = () => {
+                if (pin === "1234") { setIsEmergency(false); setShowPin(false); setPin(""); setCountdown(60); }
+                else { alert("INVALID PASSCODE"); setPin(""); }
             };
+
+            const renderHome = () => (
+                <div className="screen-content">
+                    <div style={{textAlign: 'center', marginBottom: '20px'}}>
+                        <h2 style={{margin: 0, color: '#ef4444', fontWeight: 800}}>SENTINEL PRO</h2>
+                        <div style={{display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '10px'}}>
+                            <span style={{fontSize: '0.6rem', color: '#059669', background: '#ecfdf5', padding: '4px 8px', borderRadius: '10px', fontWeight: 800}}>● ONLINE</span>
+                            <span style={{fontSize: '0.6rem', color: '#3b82f6', background: '#eff6ff', padding: '4px 8px', borderRadius: '10px', fontWeight: 800}}>🛰 SATELLITE LINK ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <div className="action-grid">
+                        <div className="chip" onClick={() => setCurrentScreen('MEDICAL')}>🏥 Medical ID</div>
+                        <div className="chip" style={{background: '#0f172a', color: 'white', border: 'none'}}>🗺 Offline Maps</div>
+                    </div>
+
+                    <div className="sos-btn" onClick={triggerSOS}>SOS</div>
+
+                    <div className="card" style={{background: '#f8fafc'}}>
+                        <h4 style={{margin: '0 0 12px 0', fontSize: '0.85rem', color: '#ef4444'}}>Neural Learning (82%)</h4>
+                        <div style={{width: '100%', height: '8px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden'}}>
+                            <div style={{width: '82%', height: '100%', background: '#6366f1'}}></div>
+                        </div>
+                        <p style={{fontSize: '0.65rem', color: '#64748b', marginTop: '10px'}}>System has established your walking baseline. <b>Kid-Safe</b> mode monitoring abduction patterns.</p>
+                    </div>
+
+                    <div className="card">
+                        <h4 style={{margin: '0 0 12px 0', fontSize: '0.85rem'}}>Emergency Ecosystem (20/20)</h4>
+                        <div style={{display: 'flex', flexWrap: 'wrap', gap: '6px'}}>
+                            {['Fall Detect', 'Crash Detect', 'Mesh SOS', 'Acoustic AI', 'Satellite', 'Drone Dispatch', 'Aegis Vault', 'LiDAR Scan'].map(feat => (
+                                <span key={feat} style={{fontSize: '0.55rem', background: '#fff', padding: '4px 8px', borderRadius: '6px', border: '1px solid #e2e8f0', fontWeight: 600}}>{feat}</span>
+                            ))}
+                            <span style={{fontSize: '0.55rem', color: '#3b82f6', fontWeight: 800}}>+ 12 More</span>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const renderMedical = () => (
+                <div className="screen-content">
+                    <div style={{display: 'flex', alignItems: 'center', marginBottom: '30px'}}>
+                        <button onClick={() => setCurrentScreen('HOME')} style={{background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer'}}>←</button>
+                        <h2 style={{flex: 1, textAlign: 'center', margin: 0, fontSize: '1rem'}}>MEDICAL ID</h2>
+                    </div>
+                    <div className="card" style={{background: '#fff'}}>
+                        <div style={{marginBottom: '15px'}}>
+                            <label style={{fontSize: '0.6rem', color: '#94a3b8', fontWeight: 800}}>BLOOD TYPE</label>
+                            <div style={{fontSize: '1rem', fontWeight: 800, color: '#ef4444'}}>O-NEGATIVE</div>
+                        </div>
+                        <div style={{marginBottom: '15px'}}>
+                            <label style={{fontSize: '0.6rem', color: '#94a3b8', fontWeight: 800}}>ALLERGIES</label>
+                            <div style={{fontSize: '0.85rem', fontWeight: 700}}>Penicillin, Peanuts, Latex</div>
+                        </div>
+                        <div>
+                            <label style={{fontSize: '0.6rem', color: '#94a3b8', fontWeight: 800}}>EMERGENCY CONTACT</label>
+                            <div style={{fontSize: '0.85rem', fontWeight: 700}}>Jane Doe: +27 82 000 0000</div>
+                        </div>
+                    </div>
+                    <p style={{fontSize: '0.7rem', color: '#94a3b8', textAlign: 'center'}}>This info is shared with EMTs automatically on dispatch.</p>
+                </div>
+            );
+
+            const renderEmergency = () => (
+                <div className="emergency-overlay">
+                    <div style={{fontSize: '5rem'}}>🚨</div>
+                    <h1 style={{fontSize: '2rem', fontWeight: 900, margin: '20px 0 10px'}}>CRITICAL ALERT</h1>
+                    <p style={{fontSize: '0.9rem', opacity: 0.9}}>ABDUCTION PATTERN DETECTED<br/>Contacting Primary Responders...</p>
+                    
+                    <div style={{width: '160px', height: '160px', borderRadius: '80px', border: '6px solid white', margin: '40px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <span style={{fontSize: '3.5rem', fontWeight: 900}}>{countdown}s</span>
+                        <span style={{fontSize: '0.6rem', letterSpacing: '2px'}}>UNTIL DISPATCH</span>
+                    </div>
+
+                    {!showPin ? (
+                        <button className="stop-btn" onClick={stopSOS}>STOP ALERT</button>
+                    ) : (
+                        <div style={{width: '100%'}}>
+                            <input 
+                                type="password" autoFocus
+                                style={{width: '100%', padding: '20px', borderRadius: '20px', border: 'none', textAlign: 'center', fontSize: '1.5rem', fontWeight: 800, color: '#ef4444'}}
+                                placeholder="PASSCODE"
+                                value={pin} onChange={e => setPin(e.target.value)}
+                            />
+                            <button className="stop-btn" style={{marginTop: '15px'}} onClick={confirmPin}>CONFIRM PIN</button>
+                        </div>
+                    )}
+                </div>
+            );
 
             return (
                 <div className="mobile-shell">
                     <div className="status-bar">
                         <span>9:41</span>
-                        <div style={{display: 'flex', gap: '5px'}}>📶 🔋</div>
+                        <div style={{display: 'flex', gap: '6px'}}>📶 🛰 🔋</div>
                     </div>
 
-                    {isEmergency ? (
-                        <div className="emergency-overlay">
-                            <div style={{fontSize: '4rem', marginBottom: '20px'}}>🚨</div>
-                            <h1 style={{fontSize: '2rem', fontWeight: '900'}}>EMERGENCY ACTIVE</h1>
-                            <p style={{opacity: 0.9}}>Pattern Detected: Severe Medical Distress</p>
+                    {isEmergency ? renderEmergency() : (
+                        <React.Fragment>
+                            {currentScreen === 'HOME' && renderHome()}
+                            {currentScreen === 'MEDICAL' && renderMedical()}
                             
-                            <div style={{width: '150px', height: '150px', borderRadius: '50%', border: '4px solid white', margin: '40px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                                <span style={{fontSize: '3rem', fontWeight: '900'}}>{countdown}s</span>
-                                <span style={{fontSize: '0.6rem'}}>TILL DISPATCH</span>
-                            </div>
-
-                            {!showPin ? (
-                                <button className="stop-btn" onClick={handleStop}>STOP ALERT</button>
-                            ) : (
-                                <div style={{width: '100%'}}>
-                                    <input 
-                                        type="password" 
-                                        placeholder="ENTER PASSCODE"
-                                        style={{width: '100%', padding: '20px', borderRadius: '20px', border: 'none', marginBottom: '10px', textAlign: 'center', fontWeight: 'bold'}}
-                                        value={pin}
-                                        onChange={(e) => setPin(e.target.value)}
-                                    />
-                                    <button className="stop-btn" style={{marginTop: '0'}} onClick={handlePinSubmit}>CONFIRM</button>
+                            <div className="nav-bar">
+                                <div className={`nav-item ${currentScreen === 'HOME' ? 'active' : ''}`} onClick={() => setCurrentScreen('HOME')}>
+                                    <span style={{fontSize: '1.2rem'}}>🏠</span>HOME
                                 </div>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="screen-content">
-                            <div style={{textAlign: 'center', marginBottom: '20px'}}>
-                                <h2 style={{margin: 0, color: '#ef4444'}}>SENTINEL PRO</h2>
-                                <p style={{fontSize: '0.7rem', color: '#64748b'}}>Always Ready • Offline Ready</p>
-                            </div>
-
-                            <div style={{background: '#f1f5f9', borderRadius: '15px', padding: '10px', display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px'}}>
-                                <div style={{fontSize: '0.7rem', color: '#059669', fontWeight: '800'}}>● ONLINE - READY</div>
-                            </div>
-
-                            <div className="grid">
-                                <div className="action-chip">🔆 Light Mode</div>
-                                <div className="action-chip" style={{background: '#3b82f6', color: 'white', border: 'none'}}>📍 Get Location</div>
-                            </div>
-
-                            <div className="sos-btn" onClick={() => setIsEmergency(true)}>SOS</div>
-
-                            <div className="card">
-                                <h4 style={{margin: '0 0 15px 0', color: '#ef4444', fontSize: '0.9rem'}}>First Aid AI Assistant</h4>
-                                <div style={{background: '#fff', padding: '15px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '10px'}}>
-                                    <span style={{fontSize: '0.8rem', fontWeight: 'bold'}}>CPR Instructions</span>
-                                    <p style={{fontSize: '0.7rem', color: '#64748b', margin: '5px 0 0 0'}}>Push hard and fast at 100 BPM. Flashlight will pulse the rhythm.</p>
+                                <div className="nav-item"><span style={{fontSize: '1.2rem'}}>👥</span>CONTACTS</div>
+                                <div className="nav-item" onClick={() => setCurrentScreen('MEDICAL')}>
+                                    <span style={{fontSize: '1.2rem'}}>🏥</span>HEALTH
                                 </div>
-                                <div style={{background: '#fff', padding: '15px', borderRadius: '12px', border: '1px solid #e2e8f0'}}>
-                                    <span style={{fontSize: '0.8rem', fontWeight: 'bold'}}>Choking (Heimlich)</span>
-                                    <p style={{fontSize: '0.7rem', color: '#64748b', margin: '5px 0 0 0'}}>Perform 5 abdominal thrusts now.</p>
-                                </div>
+                                <div className="nav-item"><span style={{fontSize: '1.2rem'}}>⚙️</span>SETTINGS</div>
                             </div>
-
-                            <div className="card" style={{marginBottom: '0'}}>
-                                <h4 style={{margin: '0 0 15px 0', color: '#6366f1', fontSize: '0.9rem'}}>Self-Learning AI Brain</h4>
-                                <div style={{background: '#fff', padding: '15px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '10px'}}>
-                                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px'}}>
-                                        <span style={{fontSize: '0.7rem', fontWeight: 'bold'}}>Neural Baseline Progress</span>
-                                        <span style={{fontSize: '0.6rem', color: '#6366f1'}}>82% Learned</span>
-                                    </div>
-                                    <div style={{width: '100%', height: '6px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden'}}>
-                                        <div style={{width: '82%', height: '100%', background: '#6366f1'}}></div>
-                                    </div>
-                                    <p style={{fontSize: '0.6rem', color: '#64748b', marginTop: '8px'}}>Sentinel is learning your "Normal" walking pace and heart rate to eliminate false alarms.</p>
-                                </div>
-                            </div>
-
-                            <div className="card" style={{marginBottom: '0', marginTop: '15px'}}>
-                                <h4 style={{margin: '0 0 15px 0', color: '#3b82f6', fontSize: '0.9rem'}}>AI Monitoring Status</h4>
-                                <div style={{display: 'flex', gap: '10px'}}>
-                                    <div style={{flex: 1, textAlign: 'center', background: '#fff', padding: '10px', borderRadius: '12px', border: '1px solid #e2e8f0'}}>
-                                        <span style={{fontSize: '0.5rem', display: 'block'}}>MOTION</span>
-                                        <span style={{fontSize: '0.7rem', fontWeight: 'bold'}}>STABLE</span>
-                                    </div>
-                                    <div style={{flex: 1, textAlign: 'center', background: '#fff', padding: '10px', borderRadius: '12px', border: '1px solid #e2e8f0'}}>
-                                        <span style={{fontSize: '0.5rem', display: 'block'}}>BIOMETRICS</span>
-                                        <span style={{fontSize: '0.7rem', fontWeight: 'bold'}}>NORMAL</span>
-                                    </div>
-                                    <div style={{flex: 1, textAlign: 'center', background: '#fff', padding: '10px', borderRadius: '12px', border: '1px solid #e2e8f0'}}>
-                                        <span style={{fontSize: '0.5rem', display: 'block'}}>KID SAFE</span>
-                                        <span style={{fontSize: '0.7rem', fontWeight: 'bold', color: '#059669'}}>ACTIVE</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {!isEmergency && (
-                        <div style={{height: '70px', display: 'flex', borderTop: '1px solid #e2e8f0', background: '#fff'}}>
-                            <div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: '800', color: '#ef4444'}}>HOME</div>
-                            <div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: '800', color: '#64748b'}}>CONTACTS</div>
-                            <div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: '800', color: '#64748b'}}>SETTINGS</div>
-                        </div>
+                        </React.Fragment>
                     )}
                 </div>
             );
